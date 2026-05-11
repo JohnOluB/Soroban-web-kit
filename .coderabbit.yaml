@@ -1,0 +1,28 @@
+language: en
+
+reviews:
+  profile: chill
+  request_changes_workflow: false
+  high_level_summary: true
+  poem: false
+  review_status: true
+  collapse_walkthrough: false
+
+  path_instructions:
+    - path: "src/components/**"
+      instructions: |
+        Review for accessibility, proper TypeScript prop types, 
+        CVA variant correctness, and Tailwind dark mode support.
+
+    - path: "src/hooks/**"
+      instructions: |
+        Check for memory leaks, proper cleanup in useEffect,
+        and error state handling.
+
+    - path: "tests/**"
+      instructions: |
+        Ensure tests cover edge cases, loading states, and error states.
+        Flag missing test coverage for new components or hooks.
+
+chat:
+  auto_reply: true

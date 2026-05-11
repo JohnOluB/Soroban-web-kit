@@ -1,0 +1,70 @@
+{
+    "name": "soroban-ui-kit",
+    "version": "0.0.1",
+    "description": "Reusable React UI components for Soroban dApp frontends",
+    "type": "module",
+    "main": "./dist/index.cjs",
+    "module": "./dist/index.js",
+    "types": "./dist/index.d.ts",
+    "files": [
+      "dist",
+      "README.md"
+    ],
+    "scripts": {
+      "dev": "vite",
+      "build": "vite build",
+      "typecheck": "tsc --noEmit",
+      "test": "vitest run",
+      "test:ui": "vitest --ui",
+      "storybook": "storybook dev -p 6006",
+      "build-storybook": "storybook build"
+    },
+    "peerDependencies": {
+      "react": "^18.0.0",
+      "react-dom": "^18.0.0"
+    },
+    "dependencies": {
+      "@stellar/stellar-sdk": "^12.3.0",
+      "class-variance-authority": "^0.7.0",
+      "clsx": "^2.1.1",
+      "qrcode.react": "^3.1.0"
+    },
+    "devDependencies": {
+      "@storybook/addon-essentials": "^8.1.0",
+      "@storybook/addon-interactions": "^8.1.0",
+      "@storybook/addon-links": "^8.1.0",
+      "@storybook/blocks": "^8.1.0",
+      "@storybook/react": "^8.1.0",
+      "@storybook/react-vite": "^8.1.0",
+      "@storybook/testing-library": "^0.2.2",
+      "@testing-library/jest-dom": "^6.4.2",
+      "@testing-library/react": "^15.0.6",
+      "@types/react": "^18.3.3",
+      "@types/react-dom": "^18.3.0",
+      "@vitejs/plugin-react": "^4.3.0",
+      "@vitest/ui": "^1.6.0",
+      "autoprefixer": "^10.4.19",
+      "jsdom": "^24.1.0",
+      "postcss": "^8.4.38",
+      "storybook": "^8.1.0",
+      "tailwindcss": "^3.4.4",
+      "typescript": "^5.4.5",
+      "vite": "^5.2.11",
+      "vite-plugin-dts": "^3.9.1",
+      "vitest": "^1.6.0"
+    },
+    "license": "Apache-2.0",
+    "repository": {
+      "type": "git",
+      "url": "https://github.com/JohnOluB/Soroban-Ui-kit"
+    },
+    "keywords": [
+      "soroban",
+      "stellar",
+      "react",
+      "ui",
+      "components",
+      "web3",
+      "dapp"
+    ]
+  }
