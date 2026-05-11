@@ -1,5 +1,5 @@
 {
-    "name": "soroban-ui-kit",
+    "name": "soroban-web-kit",
     "version": "0.0.1",
     "description": "Reusable React UI components for Soroban dApp frontends",
     "type": "module",

@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 ## Soroban-Web-kit
+=======
+## Soroban-Ui-kit
+>>>>>>> 1fcb9de (feat: add Soroban token contract with initialize, transfer, and mint)
 
 A library of reusable React UI components purpose-built for Soroban dApp frontends, covering wallet connection, transaction status, and contract interaction displays.
 
