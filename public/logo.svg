@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 160 40" fill="none">
+  <rect width="32" height="32" x="0" y="4" rx="8" fill="#6366f1"/>
+  <text x="7" y="25" font-size="18" font-family="monospace" font-weight="bold" fill="white">S</text>
+  <text x="40" y="26" font-size="16" font-family="monospace" font-weight="bold" fill="#6366f1">soroban</text>
+  <text x="40" y="38" font-size="9" font-family="monospace" fill="#94a3b8">ui-kit</text>
+</svg>
