@@ -11,6 +11,11 @@ on:
         options:
           - testnet
           - mainnet
+  push:
+    branches:
+      - main
+    paths:
+      - 'contracts/**'
 
 jobs:
   deploy:
