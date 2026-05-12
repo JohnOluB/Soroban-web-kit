@@ -39,10 +39,8 @@ jobs:
 
       - name: Install Stellar CLI
         run: |
-          wget https://github.com/stellar/stellar-cli/releases/download/v21.4.1/stellar-cli-v21.4.1-x86_64-unknown-linux-gnu.tar.gz
-          tar -xzf stellar-cli-v21.4.1-x86_64-unknown-linux-gnu.tar.gz
-          sudo mv stellar /usr/local/bin/stellar
-          stellar --version
+          curl -sSL https://raw.githubusercontent.com/stellar/stellar-cli/main/install.sh | bash
+          echo "$HOME/.cargo/bin" >> $GITHUB_PATH
 
       - name: Build contract
         working-directory: contracts
@@ -55,9 +53,23 @@ jobs:
         env:
           STELLAR_SECRET_KEY: ${{ secrets.STELLAR_SECRET_KEY }}
         run: |
+          stellar keys add deployer --secret-key "$STELLAR_SECRET_KEY"
           stellar contract deploy \
             --wasm contracts/target/wasm32-unknown-unknown/release/soroban_token.wasm \
-            --source $STELLAR_SECRET_KEY \
+            --source deployer \
             --network testnet \
             --rpc-url https://soroban-testnet.stellar.org \
             --network-passphrase "Test SDF Network ; September 2015"
+
+      - name: Deploy to mainnet
+        if: ${{ inputs.network == 'mainnet' }}
+        env:
+          STELLAR_SECRET_KEY: ${{ secrets.STELLAR_MAINNET_SECRET_KEY }}
+        run: |
+          stellar keys add deployer --secret-key "$STELLAR_SECRET_KEY"
+          stellar contract deploy \
+            --wasm contracts/target/wasm32-unknown-unknown/release/soroban_token.wasm \
+            --source deployer \
+            --network mainnet \
+            --rpc-url https://mainnet.stellar.validations.stellar.org \
+            --network-passphrase "Public Global Stellar Network ; September 2015"
