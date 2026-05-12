@@ -40,12 +40,11 @@ jobs:
       - name: Install Stellar CLI
         run: cargo install --locked stellar-cli
 
-      - name: Build contract
-        working-directory: contracts
+      - name: Debug file structure
         run: |
-          cargo generate-lockfile
-          cargo build --target wasm32-unknown-unknown --release
-          ls target/wasm32-unknown-unknown/release/*.wasm
+          find . -name "Cargo.toml" | head -20
+          ls -la contracts/
+          ls -la contracts/token/
 
       - name: Deploy to testnet
         if: ${{ inputs.network == 'testnet' }}
