@@ -44,7 +44,9 @@ jobs:
             ~/.cargo/registry
             ~/.cargo/git
             contracts/target
-          key: ${{ runner.os }}-cargo-${{ hashFiles('contracts/**/Cargo.lock') }}
+          key: ${{ runner.os }}-cargo-v2-${{ hashFiles('contracts/**/Cargo.lock') }}
+
+          - name: Cache Cargo
 
       - name: Build contract
         working-directory: contracts
