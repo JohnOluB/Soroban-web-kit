@@ -40,18 +40,19 @@ jobs:
       - name: Install Stellar CLI
         run: cargo install --locked stellar-cli
 
-      - name: Debug file structure
+      - name: Build contract
+        working-directory: contracts
         run: |
-          find . -name "Cargo.toml" | head -20
-          ls -la contracts/
-          ls -la contracts/token/
+          cargo generate-lockfile
+          cargo build --target wasm32-unknown-unknown --release
+          ls target/wasm32-unknown-unknown/release/*.wasm
 
       - name: Deploy to testnet
         if: ${{ inputs.network == 'testnet' }}
         env:
           STELLAR_SECRET_KEY: ${{ secrets.STELLAR_SECRET_KEY }}
         run: |
-          stellar keys add deployer --secret-key "$STELLAR_SECRET_KEY"
+          echo "$STELLAR_SECRET_KEY" | stellar keys add deployer --stdin
           stellar contract deploy \
             --wasm contracts/target/wasm32-unknown-unknown/release/soroban_token.wasm \
             --source deployer \
@@ -64,7 +65,7 @@ jobs:
         env:
           STELLAR_SECRET_KEY: ${{ secrets.STELLAR_MAINNET_SECRET_KEY }}
         run: |
-          stellar keys add deployer --secret-key "$STELLAR_SECRET_KEY"
+          echo "$STELLAR_SECRET_KEY" | stellar keys add deployer --stdin
           stellar contract deploy \
             --wasm contracts/target/wasm32-unknown-unknown/release/soroban_token.wasm \
             --source deployer \
