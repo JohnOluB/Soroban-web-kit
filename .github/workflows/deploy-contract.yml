@@ -20,7 +20,18 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Install Rust
+      - name: Install system dependencies
+        run: sudo apt-get update && sudo apt-get install -y libdbus-1-dev pkg-config libudev-dev libhidapi-dev
+
+      - name: Install Rust stable for Stellar CLI
+        uses: dtolnay/rust-toolchain@stable
+        with:
+          toolchain: stable
+
+      - name: Install Stellar CLI
+        run: cargo install --locked stellar-cli
+
+      - name: Install Rust 1.81 for contract build
         uses: dtolnay/rust-toolchain@stable
         with:
           toolchain: "1.81"
@@ -35,17 +46,11 @@ jobs:
             contracts/target
           key: ${{ runner.os }}-cargo-${{ hashFiles('contracts/**/Cargo.lock') }}
 
-      - name: Install system dependencies
-        run: sudo apt-get update && sudo apt-get install -y libdbus-1-dev pkg-config libudev-dev libhidapi-dev
-
-      - name: Install Stellar CLI
-        run: cargo install --locked stellar-cli
-
       - name: Build contract
         working-directory: contracts
         run: |
-          cargo generate-lockfile
-          cargo build --target wasm32-unknown-unknown --release
+          cargo +1.81 generate-lockfile
+          cargo +1.81 build --target wasm32-unknown-unknown --release
           ls target/wasm32-unknown-unknown/release/*.wasm
 
       - name: Deploy to testnet
