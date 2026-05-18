@@ -63,8 +63,8 @@ jobs:
         env:
           STELLAR_SECRET_KEY: ${{ secrets.STELLAR_SECRET_KEY }}
         run: |
-          echo "$STELLAR_SECRET_KEY" | stellar keys add deployer --stdin
-          stellar contract deploy \
+           echo "$STELLAR_SECRET_KEY" | stellar keys add deployer --stdin
+           CONTRACT_ID=$(stellar contract deploy \
             --wasm contracts/target/wasm32v1-none/release/soroban_token.wasm \
             --source deployer \
             --network testnet \
