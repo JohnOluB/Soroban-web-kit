@@ -36,10 +36,10 @@ jobs:
       - name: Install Stellar CLI
         run: cargo install --locked stellar-cli
 
-      - name: Install Rust 1.81 for contract build
+      - name: Install Rust 1.79 for contract build
         uses: dtolnay/rust-toolchain@stable
         with:
-          toolchain: "1.81"
+          toolchain: "1.79"
           targets: wasm32-unknown-unknown
 
       - name: Cache Cargo
@@ -54,8 +54,8 @@ jobs:
       - name: Build contract
         working-directory: contracts
         run: |
-          cargo +1.81 generate-lockfile
-          cargo +1.81 build --target wasm32-unknown-unknown --release
+          cargo +1.79 generate-lockfile
+          cargo +1.79 build --target wasm32-unknown-unknown --release
           ls target/wasm32-unknown-unknown/release/*.wasm
 
       - name: Deploy to testnet
