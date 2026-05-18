@@ -36,11 +36,11 @@ jobs:
       - name: Install Stellar CLI
         run: cargo install --locked stellar-cli
 
-      - name: Install Rust 1.79 for contract build
+      - name: Install Rust for contract build
         uses: dtolnay/rust-toolchain@stable
         with:
-          toolchain: "1.79"
-          targets: wasm32-unknown-unknown
+          toolchain: stable
+          targets: wasm32v1-none
 
       - name: Cache Cargo
         uses: actions/cache@v4
@@ -49,14 +49,14 @@ jobs:
             ~/.cargo/registry
             ~/.cargo/git
             contracts/target
-          key: "${{ runner.os }}-cargo-v2-${{ hashFiles('contracts/**/Cargo.lock') }}"
+          key: "${{ runner.os }}-cargo-v3-${{ hashFiles('contracts/**/Cargo.lock') }}"
 
       - name: Build contract
         working-directory: contracts
         run: |
-          cargo +1.79 generate-lockfile
-          cargo +1.79 build --target wasm32-unknown-unknown --release
-          ls target/wasm32-unknown-unknown/release/*.wasm
+          cargo generate-lockfile
+          cargo build --target wasm32v1-none --release
+          ls target/wasm32v1-none/release/*.wasm
 
       - name: Deploy to testnet
         if: ${{ inputs.network == 'testnet' }}
@@ -65,7 +65,7 @@ jobs:
         run: |
           echo "$STELLAR_SECRET_KEY" | stellar keys add deployer --stdin
           stellar contract deploy \
-            --wasm contracts/target/wasm32-unknown-unknown/release/soroban_token.wasm \
+            --wasm contracts/target/wasm32v1-none/release/soroban_token.wasm \
             --source deployer \
             --network testnet \
             --rpc-url https://soroban-testnet.stellar.org \
@@ -78,7 +78,7 @@ jobs:
         run: |
           echo "$STELLAR_SECRET_KEY" | stellar keys add deployer --stdin
           stellar contract deploy \
-            --wasm contracts/target/wasm32-unknown-unknown/release/soroban_token.wasm \
+            --wasm contracts/target/wasm32v1-none/release/soroban_token.wasm \
             --source deployer \
             --network mainnet \
             --rpc-url https://mainnet.stellar.validations.stellar.org \
