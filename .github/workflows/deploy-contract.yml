@@ -63,20 +63,23 @@ jobs:
         env:
           STELLAR_SECRET_KEY: ${{ secrets.STELLAR_SECRET_KEY }}
         run: |
-           echo "$STELLAR_SECRET_KEY" | stellar keys add deployer --stdin
-           CONTRACT_ID=$(stellar contract deploy \
+          stellar keys add deployer --secret-key
+          echo "$STELLAR_SECRET_KEY"
+          CONTRACT_ID=$(stellar contract deploy \
             --wasm contracts/target/wasm32v1-none/release/soroban_token.wasm \
             --source deployer \
             --network testnet \
             --rpc-url https://soroban-testnet.stellar.org \
-            --network-passphrase "Test SDF Network ; September 2015"
+            --network-passphrase "Test SDF Network ; September 2015")
+          echo "Contract ID: $CONTRACT_ID"
 
       - name: Deploy to mainnet
         if: ${{ inputs.network == 'mainnet' }}
         env:
           STELLAR_SECRET_KEY: ${{ secrets.STELLAR_MAINNET_SECRET_KEY }}
         run: |
-          echo "$STELLAR_SECRET_KEY" | stellar keys add deployer --stdin
+          stellar keys add deployer --secret-key
+          echo "$STELLAR_SECRET_KEY"
           stellar contract deploy \
             --wasm contracts/target/wasm32v1-none/release/soroban_token.wasm \
             --source deployer \
