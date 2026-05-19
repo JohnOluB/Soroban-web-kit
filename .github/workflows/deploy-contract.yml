@@ -11,6 +11,11 @@ on:
         options:
           - testnet
           - mainnet
+  pull_request:
+    branches:
+      - main
+    paths:
+      - 'contracts/**'
   push:
     branches:
       - main
@@ -59,7 +64,7 @@ jobs:
           ls target/wasm32v1-none/release/*.wasm
 
       - name: Deploy to testnet
-        if: ${{ inputs.network == 'testnet' }}
+        if: ${{ github.event_name == 'push' && inputs.network == 'testnet' }}
         env:
           STELLAR_SECRET_KEY: ${{ secrets.STELLAR_SECRET_KEY }}
         run: |
@@ -74,7 +79,7 @@ jobs:
           echo "Contract ID: $CONTRACT_ID"
 
       - name: Deploy to mainnet
-        if: ${{ inputs.network == 'mainnet' }}
+        if: ${{ github.event_name == 'push' && inputs.network == 'mainnet' }}
         env:
           STELLAR_SECRET_KEY: ${{ secrets.STELLAR_MAINNET_SECRET_KEY }}
         run: |
